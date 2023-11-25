@@ -47,7 +47,7 @@ const updateTrip = async (req, res) => {
   }
   const trip = await Trip.findOneAndUpdate(
     { _id: tripId, commuter: userId },
-    req.body,
+    { To: req.body.to, From: req.body.from },
     { new: true, runValidators: true }
   );
 
@@ -58,7 +58,19 @@ const updateTrip = async (req, res) => {
 };
 
 const deleteTrip = async (req, res) => {
-  res.send("get all Trips");
+  //res.send("delete Trips");
+  const {
+    user: { _id: userId },
+    params: { id: tripId },
+  } = req;
+  const trip = await Trip.findByIdAndRemove({
+    _id: tripId,
+    createdBy: userId,
+  });
+  if (!trip) {
+    throw new NotFoundError(` No trip with id ${tripId}`);
+  }
+  res.status(StatusCodes.OK).send();
 };
 
 module.exports = {

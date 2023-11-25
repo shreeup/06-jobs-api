@@ -3,6 +3,12 @@ require("express-async-errors");
 const express = require("express");
 const app = express();
 
+//security packages
+const helmet = require("helmet");
+const cors = require("cors");
+const xss = require("xss-clean");
+const rateLimiter = require("express-rate-limit");
+
 //connectdb
 const connectDB = require("./db/connect");
 const authenticateUser = require("./middleware/authentication");
@@ -15,8 +21,18 @@ const tripsRouter = require("./routes/trips");
 const notFoundMiddleware = require("./middleware/not-found");
 const errorHandlerMiddleware = require("./middleware/error-handler");
 
-app.use(express.json());
 // extra packages
+app.set("trust proxy", 1);
+app.use(rateLimiter());
+app.use(
+  rateLimiter({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+  })
+);
+app.use(express.json());
+app.use(helmet());
+app.use(cors());
 
 // routes
 app.use("/api/v1/auth", authRouter);
