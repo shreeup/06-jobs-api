@@ -36,6 +36,22 @@ const updateTrip = async (req, res) => {
   //   "email":"ergegr@yswf.com",
   //   "password":"yufg43wer"
 
+  //   {
+  //     "name":"Fnu Shree",
+  //     "email":"shree@ctd.com",
+  //     "password":"shr33@CTD"
+  // }
+
+  // {
+  //     "name":"Fnu Shree",
+  //     "email":"fnushree@ctd.com",
+  //     "password":"FNUshr33"
+  // }
+  //   {
+  //   "name": "shree swagger",
+  //   "email": "fnushree@swagger.com",
+  //   "password": "sw@gg3r"
+  // }
   const {
     body: { to, from },
     user: { _id: userId },
