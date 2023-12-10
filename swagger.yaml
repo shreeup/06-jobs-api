@@ -1,0 +1,250 @@
+openapi: 3.0.0
+info:
+  title: TripsAPI
+  contact: {}
+  version: "1.0"
+servers:
+  - url: https://trips-api-shree.onrender.com/api/v1/
+    variables: {}
+paths:
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register
+      operationId: Register
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/URLregisterRequest"
+                - example:
+                    name: bfb cvnbvn
+                    email: ""
+                    password: d
+            example:
+              name: bfb cvnbvn
+              email: ""
+              password: d
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login
+      operationId: Login
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/URLapiv1loginRequest"
+                - example:
+                    name: bfb cvnbvn
+                    email: 5fdrdger@yswf.com
+                    password: 563cfe
+            example:
+              name: bfb cvnbvn
+              email: 5fdrdger@yswf.com
+              password: 563cfe
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security: []
+  /trips/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The trip ID
+    get:
+      tags:
+        - Trip
+      summary: Get Single Trip
+      operationId: GetSingleTrip
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    patch:
+      tags:
+        - Trip
+      summary: UpdateTrip
+      operationId: UpdateTrip
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/patchtaskrequest"
+                - example:
+                    to: mal
+                    from: mau
+            example:
+              to: mal
+              from: mau
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    delete:
+      tags:
+        - Trip
+      summary: Delete
+      operationId: Delete
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+  /trips:
+    post:
+      tags:
+        - Trip
+      summary: Create Trip
+      operationId: CreateTrip
+      parameters: []
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/posttriprequest"
+                - example:
+                    Date: 2023-09-25
+                    From: mum
+                    To: del
+            example:
+              Date: 2023-09-25
+              From: mum
+              To: del
+        required: true
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+    get:
+      tags:
+        - Trip
+      summary: Get All Trips
+      operationId: GetTrips
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          headers: {}
+      deprecated: false
+      security:
+        - bearer: []
+components:
+  schemas:
+    URLregisterRequest:
+      title: URLregisterRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: bfb cvnbvn
+        email: ""
+        password: d
+    URLapiv1loginRequest:
+      title: URLapiv1loginRequest
+      required:
+        - name
+        - email
+        - password
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        name: bfb cvnbvn
+        email: 5fdrdger@yswf.com
+        password: 563cfe
+    posttriprequest:
+      title: posttriprequest
+      required:
+        - Date
+        - From
+        - To
+      type: object
+      properties:
+        Date:
+          type: string
+        From:
+          type: string
+        To:
+          type: string
+      example:
+        Date: 2023-09-25
+        From: mum
+        To: del
+    patchtaskrequest:
+      title: patchtaskrequest
+      required:
+        - to
+        - from
+      type: object
+      properties:
+        to:
+          type: string
+        from:
+          type: string
+      example:
+        to: mal
+        from: mau
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+security: []
+tags:
+  - name: Auth
+    description: ""
+  - name: Trip
+    description: ""
