@@ -23,8 +23,13 @@ const getTrip = async (req, res) => {
 
 const createTrip = async (req, res) => {
   req.body.commuter = req.user._id;
-  const trip = await Trip.create(req.body);
-  res.status(StatusCodes.CREATED).json({ trip });
+  try {
+    const trip = await Trip.create(req.body);
+    console.log(trip);
+    res.status(StatusCodes.CREATED).json({ trip });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const updateTrip = async (req, res) => {
@@ -59,18 +64,22 @@ const updateTrip = async (req, res) => {
   } = req;
   console.log("req body", to, from);
   if (!to || !from) {
-    throw new BadRequestError("to / fro cannot be empty");
+    throw new BadRequestError("To / From cannot be empty");
   }
-  const trip = await Trip.findOneAndUpdate(
-    { _id: tripId, commuter: userId },
-    { To: req.body.to, From: req.body.from },
-    { new: true, runValidators: true }
-  );
+  try {
+    const trip = await Trip.findOneAndUpdate(
+      { _id: tripId, commuter: userId },
+      { date: req.body.date, to: req.body.to, from: req.body.from },
+      { new: true, runValidators: true }
+    );
 
-  if (!trip) {
-    throw new NotFoundError(` No trip with id ${tripId}`);
+    if (!trip) {
+      throw new NotFoundError(` No trip with id ${tripId}`);
+    }
+    res.status(StatusCodes.OK).json({ trip });
+  } catch (e) {
+    console.log(e);
   }
-  res.status(StatusCodes.OK).json({ trip });
 };
 
 const deleteTrip = async (req, res) => {
@@ -79,14 +88,18 @@ const deleteTrip = async (req, res) => {
     user: { _id: userId },
     params: { id: tripId },
   } = req;
-  const trip = await Trip.findByIdAndRemove({
-    _id: tripId,
-    createdBy: userId,
-  });
-  if (!trip) {
-    throw new NotFoundError(` No trip with id ${tripId}`);
+  try {
+    const trip = await Trip.findByIdAndRemove({
+      _id: tripId,
+      createdBy: userId,
+    });
+    if (!trip) {
+      throw new NotFoundError(` No trip with id ${tripId}`);
+    }
+    res.status(StatusCodes.OK).json({ msg: "The entry was deleted." });
+  } catch (e) {
+    console.log(e);
   }
-  res.status(StatusCodes.OK).send();
 };
 
 module.exports = {

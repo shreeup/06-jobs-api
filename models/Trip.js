@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 const TripSchema = new mongoose.Schema(
   {
-    Date: {
+    date: {
       type: Date,
       required: [true, "Please provide trip date"],
     },
-    From: {
+    from: {
       type: String,
       required: [true, "Please provide pickup point"],
       maxlength: 50,
     },
-    To: {
+    to: {
       type: String,
       required: [true, "Please provide drop point"],
       maxlength: 50,
