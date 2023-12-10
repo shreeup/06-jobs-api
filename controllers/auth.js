@@ -9,13 +9,15 @@ const register = async (req, res) => {
     throw new BadRequestError("Please provide name,email and password");
 
   const user = await User.create({ ...req.body });
-  const token = jwt.sign(
-    { userId: user._id, name: user.name },
-    process.env.JWT_SECRET,
-    {
-      expiresIn: process.env.JWT_LIFETIME,
-    }
-  );
+  // User.createJWT
+  // const token = jwt.sign(
+  //   { userId: user._id, name: user.name },
+  //   process.env.JWT_SECRET,
+  //   {
+  //     expiresIn: process.env.JWT_LIFETIME,
+  //   }
+  // );
+  const token = await user.createJWT();
   res
     .status(StatusCodes.CREATED)
     .json({ user: { name: user.getName() }, token });
